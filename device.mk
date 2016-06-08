@@ -233,7 +233,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libqsap_sdk \
     libQWiFiSoftApCfg \
-    libwpa_client
+    libwpa_client \
+    wificond
 
 PRODUCT_PACKAGES += \
     hostapd_default.conf \
