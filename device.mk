@@ -127,6 +127,10 @@ PRODUCT_PACKAGES += \
     libboringssl-compat \
     Snap
 
+# Consumerir
+PRODUCT_PACKAGES += \
+    android.hardware.ir@1.0-impl \
+
 # DataServices
 PRODUCT_PACKAGES += \
     librmnetctl
