@@ -101,7 +101,7 @@ void *enroll_thread_loop()
                 ALOGI("%s : Got print index : %d", __func__,print_index);
                 uint32_t print_id = fpc_get_print_id(print_index);
                 ALOGI("%s : Got print id : %lu", __func__,(unsigned long) print_id);
-                
+
                 uint32_t db_length = fpc_get_user_db_length();
                 auth_id = get_64bit_rand();
                 ALOGI("%s : User Database Length Is : %lu, new ath_id: %" PRId64 , __func__,(unsigned long) db_length, auth_id);
@@ -156,8 +156,6 @@ void *auth_thread_loop()
             msg.data.acquired.acquired_info = status;
             callback(&msg);
         }
-
-
 
         if (status == FINGERPRINT_ACQUIRED_GOOD) {
 
@@ -247,11 +245,11 @@ static int fingerprint_enroll(struct fingerprint_device __unused *dev,
                               uint32_t __unused gid,
                               uint32_t __unused timeout_sec)
 {
-    
+
     pthread_mutex_lock(&lock);
     bool thread_running = auth_thread_running;
     pthread_mutex_unlock(&lock);
-    
+
     if (thread_running) {
         ALOGE("%s : Error, thread already running\n", __func__);
         return -1;
@@ -381,10 +379,10 @@ static int fingerprint_set_active_group(struct fingerprint_device __unused *dev,
 {
     sprintf(db_path,"%s/data_%d.db",store_path,gid);
     ALOGI("%s : storage path set to : %s",__func__, db_path);
-	
+
     auth_id = fpc_load_user_db(db_path);
     if (auth_id == 0) {
-    	ALOGE("Failed to load saved db from path: %s\n",db_path);
+	ALOGE("Failed to load saved db from path: %s\n",db_path);
     }
 
     ALOGI("%s: auth_id loaded from disk: %"PRId64 ,__func__, auth_id);
@@ -455,7 +453,7 @@ static int fingerprint_open(const hw_module_t* module, const char __unused *id,
     fingerprint_device_t *dev = malloc(sizeof(fingerprint_device_t));
     memset(dev, 0, sizeof(fingerprint_device_t));
     dev->common.tag = HARDWARE_DEVICE_TAG;
-    dev->common.version = FINGERPRINT_MODULE_API_VERSION_2_0;
+    dev->common.version = FINGERPRINT_MODULE_API_VERSION_2_1;
     dev->common.module = (struct hw_module_t*) module;
     dev->common.close = fingerprint_close;
 
@@ -485,7 +483,7 @@ static struct hw_module_methods_t fingerprint_module_methods = {
 fingerprint_module_t HAL_MODULE_INFO_SYM = {
     .common = {
         .tag                = HARDWARE_MODULE_TAG,
-        .module_api_version = FINGERPRINT_MODULE_API_VERSION_2_0,
+        .module_api_version = FINGERPRINT_MODULE_API_VERSION_2_1,
         .hal_api_version    = HARDWARE_HAL_API_VERSION,
         .id                 = FINGERPRINT_HARDWARE_MODULE_ID,
         .name               = "HM3 Fingerprint HAL",
